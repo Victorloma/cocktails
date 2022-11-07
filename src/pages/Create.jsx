@@ -1,6 +1,9 @@
 import { useState } from "react"
+import { useNavigate } from "react-router-dom"
+import supabase from "../config/supabaseClient"
 
 const Create = () => {
+  const navigate = useNavigate()
   const [name, setName] = useState('')
   const [method, setMethod] = useState('')
   const [rating, setRating] = useState('')
@@ -14,12 +17,25 @@ const Create = () => {
       return
     }
 
-    console.log(name, rating, method)
+    const { data, error } = await supabase
+      .from('cocktails')
+      .insert([{ name, method, rating }])
+      .select()
+
+    if (error) {
+      console.log(error)
+      setFormError('Please fill in all the fields correctly')
+    }
+    if (data) {
+      console.log(data)
+      setFormError(null)
+      navigate('/')
+    }
   }
 
   return (
     <div className="page create">
-      <form onSubmit={ handleSubmit }>
+      <form onSubmit={handleSubmit}>
         <label htmlFor="name">Name</label>
         <input
           type="text"
