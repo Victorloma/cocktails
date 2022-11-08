@@ -6,9 +6,36 @@ import supabase from "../config/supabaseClient"
 const Update = () => {
   const { id } = useParams()
   const navigate = useNavigate()
+
   const [name, setName] = useState('')
   const [method, setMethod] = useState('')
   const [rating, setRating] = useState('')
+  const [formError, setFormError] = useState(null)
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+
+    if (!name || !method || !rating) {
+      setFormError(('Please fill in all the fields correctly'))
+      return
+    }
+
+    const { data, error } = await supabase
+      .from('cocktails')
+      .update({ name, method, rating })
+      .eq('id', id)
+      .select()
+
+    if(error){
+      console.log(error)
+      setFormError(('Please fill in all the fields correctly'))
+    }
+    if(data){
+      console.log(data)
+      setFormError(null)
+      navigate('/')
+    }
+  }
 
   useEffect(() => {
     const fetchCocktail = async () => {
@@ -18,23 +45,23 @@ const Update = () => {
         .eq('id', id)
         .single()
 
-        if (error) {
-          navigate('/', { replace: true })
-        }
+      if (error) {
+        navigate('/', { replace: true })
+      }
 
-        if (data) {
-          setName(data.name)
-          setMethod(data.method)
-          setRating(data.rating)
-          console.log(data)
-        }
+      if (data) {
+        setName(data.name)
+        setMethod(data.method)
+        setRating(data.rating)
+        console.log(data)
+      }
     }
 
     fetchCocktail()
   }, [id, navigate])
   return (
     <div className="page update">
-      <form >
+      <form onSubmit={handleSubmit}>
         <label htmlFor="name">Name</label>
         <input
           type="text"
@@ -60,7 +87,7 @@ const Update = () => {
 
         <button>Create Cocktail Recipe</button>
 
-        {/* {formError && <p className="error">{formError}</p>} */}
+        {formError && <p className="error">{formError}</p>}
       </form>
     </div>
   )
