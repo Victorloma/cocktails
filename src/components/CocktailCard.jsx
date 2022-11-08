@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import supabase from '../config/supabaseClient'
 
-const CocktailCard = ({ cocktail }) => {
+const CocktailCard = ({ cocktail, onDelete }) => {
     
     const handleDelete = async() => {
         const {data, error} = await supabase
@@ -16,6 +16,7 @@ const CocktailCard = ({ cocktail }) => {
         }
         if(data){
             console.log(data)
+            onDelete(cocktail.id)
         }
     }
 

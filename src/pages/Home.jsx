@@ -7,6 +7,12 @@ const Home = () => {
   const [fetchError, setFetchError] = useState(null)
   const [cocktails, setCocktails] = useState(null)
 
+  const handleDelete = (id) => {
+    setCocktails(prevCocktails=> {
+      return prevCocktails.filter(cocktail=> cocktail.id !== id)
+    })
+  }
+
   useEffect(() => {
     const fetchCocktails = async () => {
       const { data, error } = await supabase
@@ -37,6 +43,7 @@ const Home = () => {
               <CocktailCard 
                 cocktail={cocktail}
                 key={cocktail.id}  
+                onDelete={handleDelete}
               />
             ))}
           </div>
