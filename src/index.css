@@ -1,23 +1,28 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;800&family=VT323&display=swap');
 
 :root {
-  --primary: #12bca2;
-  --secondary: #6d15df;
+  --primary: #1f1f1f;
+  --secondary: #3D7EAA;
 }
+
+  /* --secondary: linear-gradient(to bottom right, #f0c27b, #4b1248) */
+
+
 h1,h2,h3 {
   margin: 0;
 }
 
 body {
   margin: 0;
-  color: #333;
+  color: #FFF;
   font-family: 'Poppins';
-  background: #f2f2f2;
+  background: #121212;
 }
 nav {
   background: var(--primary);
   padding: 10px 20px;
   text-align: center;
+  margin: 1.5rem 0;
 }
 nav a {
   color: #f2f2f2;
@@ -42,7 +47,7 @@ nav h1 {
 .cocktail-card {
   width: 100%;
   padding: 10px;
-  background: #fff;
+  background: #1e1e1e;
   box-sizing: border-box;
   border-radius: 6px;
   position: relative;
@@ -53,7 +58,7 @@ nav h1 {
   right: -10px;
   background: var(--secondary);
   color: #fff;
-  border-radius: 6px;
+  border-radius: 50%;
   width: 40px;
   height: 0;
   padding: 20px 0;
@@ -90,19 +95,21 @@ form button {
   text-align: right;
 }
 .cocktail-card i {
-  color: #bbb;
+  color: #000;
   margin-left: 10px;
   font-size: 1.2em;
   padding: 6px;
-  background: #eee;
-  border-radius: 50%;
+  background: linear-gradient(to bottom right,#3D7EAA,#FFE47A);
+  /* linear-gradient(to bottom right, #FEDB37 0%, #FDB931 33%, #9f7928 66%, #8A6E2F 100%); */
+  border-radius: 25%;
   cursor: pointer;
 }
 
 .order-by button {
   margin-right: 10px;
-  background: var(--primary);
-  color: #fff;
+  background: #3D7EAA;
+  /* linear-gradient(to bottom right, #FFFFFF 0%, #FFFFAC 8%, #D1B464 25%, #5d4a1f 62.5%, #5d4a1f 100%); */
+  color: #FFF;
   border: 0;
   padding: 4px 8px;
   border-radius: 6px;
