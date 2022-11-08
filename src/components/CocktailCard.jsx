@@ -7,7 +7,7 @@ const CocktailCard = ({ cocktail }) => {
             <h3>{cocktail.name}</h3>
             <p>{cocktail.method}</p>
             <div className="rating">{cocktail.rating}</div>
-            <div className="button">
+            <div className="buttons">
                 <Link to={`/${cocktail.id}`}>
                     <i className='material-icons'>edit</i>
                 </Link>
