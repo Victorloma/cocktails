@@ -22,6 +22,7 @@ const CocktailCard = ({ cocktail, onDelete }) => {
 
     return (
         <div className='cocktail-card'>
+            <img classname='cocktail-card-img' src={cocktail.img} alt='One good looking cocktail'/>
             <h3>{cocktail.name}</h3>
             <p>{cocktail.method}</p>
             <div className="rating">{cocktail.rating}</div>
