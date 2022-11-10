@@ -1,7 +1,6 @@
-import { useState } from "react"
-import { useEffect } from "react"
-import { useNavigate, useParams } from "react-router-dom"
-import supabase from "../config/supabaseClient"
+import { useState, useEffect } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
+import { getOneCocktail, submitCocktail } from '../services/cocktails.service'
 
 const Update = () => {
   const { id } = useParams()
@@ -16,78 +15,62 @@ const Update = () => {
     e.preventDefault()
 
     if (!name || !method || !rating) {
-      setFormError(('Please fill in all the fields correctly'))
+      setFormError('Please fill in all the fields correctly')
       return
     }
 
-    const { data, error } = await supabase
-      .from('cocktails')
-      .update({ name, method, rating })
-      .eq('id', id)
-      .select()
-
-    if(error){
-      console.log(error)
-      setFormError(('Please fill in all the fields correctly'))
-    }
-    if(data){
-      console.log(data)
+    try {
+      await submitCocktail(name, method, rating, id)
       setFormError(null)
       navigate('/')
+    } catch (err) {
+      setFormError('Please fill in all the fields correctly')
     }
   }
 
   useEffect(() => {
     const fetchCocktail = async () => {
-      const { data, error } = await supabase
-        .from('cocktails')
-        .select()
-        .eq('id', id)
-        .single()
-
-      if (error) {
-        navigate('/', { replace: true })
-      }
-
-      if (data) {
+      try {
+        const data = await getOneCocktail(id)
         setName(data.name)
         setMethod(data.method)
         setRating(data.rating)
-        console.log(data)
+      } catch (err) {
+        navigate('/', { replace: true })
       }
     }
 
     fetchCocktail()
   }, [id, navigate])
   return (
-    <div className="page update">
+    <div className='page update'>
       <form onSubmit={handleSubmit}>
-        <label htmlFor="name">Name</label>
+        <label htmlFor='name'>Name</label>
         <input
-          type="text"
-          id="name"
+          type='text'
+          id='name'
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
 
-        <label htmlFor="method">Method:</label>
+        <label htmlFor='method'>Method:</label>
         <textarea
-          id="method"
+          id='method'
           value={method}
           onChange={(e) => setMethod(e.target.value)}
         />
 
-        <label htmlFor="rating">Rating:</label>
+        <label htmlFor='rating'>Rating:</label>
         <input
-          type="number"
-          id="rating"
+          type='number'
+          id='rating'
           value={rating}
           onChange={(e) => setRating(e.target.value)}
         />
 
-        <button>Create Cocktail Recipe</button>
+        <button>Update Cocktail Recipe</button>
 
-        {formError && <p className="error">{formError}</p>}
+        {formError && <p className='error'>{formError}</p>}
       </form>
     </div>
   )
