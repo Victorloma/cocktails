@@ -1,23 +1,11 @@
 import { useEffect, useState } from 'react'
-import { deleteCocktail, getAllCocktails } from '../services/cocktails.service'
+import { getAllCocktails } from '../services/cocktails.service'
 
 import CocktailCard from '../components/CocktailCard'
 
-const Home = () => {
+const Home = ({ openModal, handleDelete, cocktails, setCocktails }) => {
   const [fetchError, setFetchError] = useState(null)
-  const [cocktails, setCocktails] = useState(null)
   const [orderBy, setOrderBy] = useState('created_at')
-
-  const handleDelete = async (id) => {
-    try {
-      await deleteCocktail(id)
-    } catch (error) {
-      alert("Couldn't delete cocktail, try again.")
-    }
-    setCocktails((prevCocktails) => {
-      return prevCocktails.filter((cocktail) => cocktail.id !== id)
-    })
-  }
 
   useEffect(() => {
     const fetchCocktails = async () => {
@@ -31,10 +19,10 @@ const Home = () => {
       }
     }
     fetchCocktails()
-  }, [orderBy])
+  }, [orderBy, setCocktails])
 
   return (
-    <div className='page home'>
+    <div className='page'>
       {fetchError && <p>{fetchError}</p>}
       {cocktails && (
         <div className='cocktails'>
@@ -53,6 +41,7 @@ const Home = () => {
                 cocktail={cocktail}
                 key={cocktail.id}
                 onDelete={handleDelete}
+                openModal={openModal}
               />
             ))}
           </div>

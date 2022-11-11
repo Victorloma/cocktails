@@ -4,4 +4,3 @@ node_modules
 .prettierignore
 .prettierrc.json
 ideas.css
-src/components/CocktailModal.jsx
