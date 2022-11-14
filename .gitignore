@@ -1,2 +1,6 @@
 node_modules
 .env
+.eslintrc.json
+.prettierignore
+.prettierrc.json
+ideas.css

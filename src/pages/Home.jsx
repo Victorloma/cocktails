@@ -1,42 +1,47 @@
-import supabase from "../config/supabaseClient"
 import { useEffect, useState } from 'react'
+import { getAllCocktails } from '../services/cocktails.service'
 
-import CocktailCard from "../components/CocktailCard"
+import CocktailCard from '../components/CocktailCard'
 
-const Home = () => {
+const Home = ({ openModal, handleDelete, cocktails, setCocktails }) => {
   const [fetchError, setFetchError] = useState(null)
-  const [cocktails, setCocktails] = useState(null)
+  const [orderBy, setOrderBy] = useState('created_at')
 
   useEffect(() => {
     const fetchCocktails = async () => {
-      const { data, error } = await supabase
-        .from('cocktails')
-        .select()
-
-      if (error) {
-        setFetchError('Could not fetch the cocktails =(')
-        setCocktails(null)
-        console.log(error)
-      }
-      if (data) {
+      try {
+        const data = await getAllCocktails(orderBy)
         setCocktails(data)
         setFetchError(null)
+      } catch (err) {
+        setFetchError('Could not find any cocktails =(')
+        setCocktails(null)
       }
     }
-
     fetchCocktails()
-  }, [])
+  }, [orderBy, setCocktails])
 
   return (
-    <div className="page home">
-      {fetchError && (<p>{fetchError}</p>)}
+    <div className='page'>
+      {fetchError && <p>{fetchError}</p>}
       {cocktails && (
-        <div className="cocktails">
-          <div className="cocktail-grid">
-            {cocktails.map(cocktail => (
-              <CocktailCard 
+        <div className='cocktails'>
+          <div className='order-by'>
+            <p>Order by:</p>
+            <button onClick={() => setOrderBy('created_at')}>
+              Time Created
+            </button>
+            <button onClick={() => setOrderBy('name')}>Name</button>
+            <button onClick={() => setOrderBy('rating')}>Rating</button>
+            {orderBy}
+          </div>
+          <div className='cocktail-grid'>
+            {cocktails.map((cocktail) => (
+              <CocktailCard
                 cocktail={cocktail}
-                key={cocktail.id}  
+                key={cocktail.id}
+                onDelete={handleDelete}
+                openModal={openModal}
               />
             ))}
           </div>
@@ -46,4 +51,4 @@ const Home = () => {
   )
 }
 
-export default Home;
+export default Home
