@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import supabase from '../config/supabaseClient'
+import { createCocktail } from '../services/cocktails.service'
 
 const Create = () => {
   const navigate = useNavigate()
@@ -17,17 +17,12 @@ const Create = () => {
       return
     }
 
-    const { data, error } = await supabase
-      .from('cocktails')
-      .insert([{ name, method, rating }])
-      .select()
-
-    if (error) {
-      setFormError('Please fill in all the fields correctly')
-    }
-    if (data) {
+    try {
+      await createCocktail(name, method, rating)
       setFormError(null)
       navigate('/')
+    } catch (err) {
+      setFormError('Please fill in all the fields correctly')
     }
   }
 

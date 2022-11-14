@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { getOneCocktail, submitCocktail } from '../services/cocktails.service'
+import { getOneCocktail, updateCocktail } from '../services/cocktails.service'
 
 const Update = () => {
   const { id } = useParams()
@@ -20,7 +20,7 @@ const Update = () => {
     }
 
     try {
-      await submitCocktail(name, method, rating, id)
+      await updateCocktail(name, method, rating, id)
       setFormError(null)
       navigate('/')
     } catch (err) {

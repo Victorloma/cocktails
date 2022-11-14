@@ -27,13 +27,25 @@ const Home = ({ openModal, handleDelete, cocktails, setCocktails }) => {
       {cocktails && (
         <div className='cocktails'>
           <div className='order-by'>
-            <p>Order by:</p>
+            <label for='order-by'>Order by:</label>
+            <select
+              className='select-order'
+              name='order-by'
+              id='order-by'
+              onChange={(e) => setOrderBy(e.target.value)}
+              value={orderBy}
+            >
+              <option value='created_at'>Most recent</option>
+              <option value='name'>Name</option>
+              <option value='rating'>Rating</option>
+            </select>
+            {/* <p>Order by:</p>
             <button onClick={() => setOrderBy('created_at')}>
               Time Created
             </button>
             <button onClick={() => setOrderBy('name')}>Name</button>
             <button onClick={() => setOrderBy('rating')}>Rating</button>
-            {orderBy}
+            {orderBy} */}
           </div>
           <div className='cocktail-grid'>
             {cocktails.map((cocktail) => (

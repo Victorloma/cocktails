@@ -7,6 +7,7 @@ import Create from './pages/Create'
 import Update from './pages/Update'
 
 import CocktailModal from './components/CocktailModal'
+import Logo from './cover.png'
 
 function App() {
   const [cocktails, setCocktails] = useState(null)
@@ -42,10 +43,18 @@ function App() {
           onDelete={handleDelete}
         />
       )}
-      <nav>
-        <h1>Victor&apos;s Supa Cocktails</h1>
-        <Link to='/'>Home</Link>
-        <Link to='/create'>Create New Cocktail</Link>
+      <nav className='nav'>
+        <Link className='nav-link' to='/'>
+          <img className='nav-logo' src={Logo} alt='supa logo' />
+        </Link>
+        <div className='nav-links'>
+          <Link className='nav-link' to='/'>
+            Home
+          </Link>
+          <Link className='nav-link' to='/create'>
+            Create New Cocktail
+          </Link>
+        </div>
       </nav>
       <Routes>
         <Route
