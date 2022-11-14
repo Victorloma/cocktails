@@ -2,8 +2,10 @@ import { useEffect, useState } from 'react'
 import { getAllCocktails } from '../services/cocktails.service'
 
 import CocktailCard from '../components/CocktailCard'
+import { useDispatch } from 'react-redux'
 
 const Home = ({ openModal, handleDelete, cocktails, setCocktails }) => {
+  const dispatch = useDispatch()
   const [fetchError, setFetchError] = useState(null)
   const [orderBy, setOrderBy] = useState('created_at')
 
@@ -11,15 +13,15 @@ const Home = ({ openModal, handleDelete, cocktails, setCocktails }) => {
     const fetchCocktails = async () => {
       try {
         const data = await getAllCocktails(orderBy)
-        setCocktails(data)
+        dispatch(setCocktails(data))
         setFetchError(null)
       } catch (err) {
         setFetchError('Could not find any cocktails =(')
-        setCocktails(null)
+        dispatch(setCocktails(null))
       }
     }
     fetchCocktails()
-  }, [orderBy, setCocktails])
+  }, [orderBy, setCocktails, dispatch])
 
   return (
     <div className='page'>
@@ -27,11 +29,11 @@ const Home = ({ openModal, handleDelete, cocktails, setCocktails }) => {
       {cocktails && (
         <div className='cocktails'>
           <div className='order-by'>
-            <label for='order-by'>Order by:</label>
+            <label htmlFor='order'>Order by:</label>
             <select
               className='select-order'
               name='order-by'
-              id='order-by'
+              id='order'
               onChange={(e) => setOrderBy(e.target.value)}
               value={orderBy}
             >
@@ -39,13 +41,6 @@ const Home = ({ openModal, handleDelete, cocktails, setCocktails }) => {
               <option value='name'>Name</option>
               <option value='rating'>Rating</option>
             </select>
-            {/* <p>Order by:</p>
-            <button onClick={() => setOrderBy('created_at')}>
-              Time Created
-            </button>
-            <button onClick={() => setOrderBy('name')}>Name</button>
-            <button onClick={() => setOrderBy('rating')}>Rating</button>
-            {orderBy} */}
           </div>
           <div className='cocktail-grid'>
             {cocktails.map((cocktail) => (

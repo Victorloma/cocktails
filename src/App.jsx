@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
+import { setCocktails } from './redux/features/cocktailsSlice'
+import { useDispatch, useSelector } from 'react-redux'
 import { deleteCocktail } from './services/cocktails.service'
 
 import Home from './pages/Home'
@@ -10,7 +12,8 @@ import CocktailModal from './components/CocktailModal'
 import Logo from './cover.png'
 
 function App() {
-  const [cocktails, setCocktails] = useState(null)
+  const dispatch = useDispatch()
+  const cocktails = useSelector((state) => state.cocktails.value)
   const [showModal, setShowModal] = useState(false)
   const [currentModalCocktail, setCurrentModalCocktail] = useState(null)
 
@@ -20,9 +23,11 @@ function App() {
     } catch (error) {
       alert("Couldn't delete cocktail, try again.")
     }
-    setCocktails((prevCocktails) => {
-      return prevCocktails.filter((cocktail) => cocktail.id !== id)
-    })
+    dispatch(
+      setCocktails((prevCocktails) => {
+        return prevCocktails.filter((cocktail) => cocktail.id !== id)
+      })
+    )
   }
 
   const openModal = (cocktail) => {
@@ -52,7 +57,7 @@ function App() {
             Home
           </Link>
           <Link className='nav-link' to='/create'>
-            Create New Cocktail
+            Add Cocktail
           </Link>
         </div>
       </nav>
