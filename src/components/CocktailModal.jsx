@@ -1,31 +1,50 @@
+import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
+import { setShowModal } from '../redux/features/modalSlice'
+import { useDeleteOneCocktailMutation } from '../redux/features/api/apiSlice'
 
-const CocktailModal = ({ currentModalCocktail, closeModal, onDelete }) => {
+const CocktailModal = ({ onDelete }) => {
+  const dispatch = useDispatch()
+  const showModal = useSelector((state) => state.modal.showModal)
+
+  const [deleteCocktail] = useDeleteOneCocktailMutation()
+
   const handleDelete = () => {
-    onDelete(currentModalCocktail.id)
-    closeModal()
+    deleteCocktail(showModal.id)
+    dispatch(setShowModal(false))
   }
   return (
-    <div className='modal-overlay' onClick={() => closeModal()}>
+    <div
+      className='modal-overlay'
+      onClick={() => dispatch(setShowModal(false))}
+    >
       <div
         className='modal-container'
         onClick={(e) => {
           e.stopPropagation()
         }}
       >
-        <span className='modal-close-btn' onClick={() => closeModal()}>
+        <span
+          className='modal-close-btn'
+          onClick={() => dispatch(setShowModal(false))}
+        >
           &times;
         </span>
-        <img src={currentModalCocktail.img} alt='One good looking cocktail' />
+        <img src={showModal.img} alt='One good looking cocktail' />
         <span className='modal-header'>
-          <h3>{currentModalCocktail.name}</h3>
-          <div className='modal-rating'>{currentModalCocktail.rating}</div>
+          <h3>{showModal.name}</h3>
+          <div className='modal-rating'>{showModal.rating}</div>
         </span>
-        <p>{currentModalCocktail.method}</p>
+        <p>{showModal.method}</p>
 
         <div className='modal-buttons'>
-          <Link to={`/${currentModalCocktail.id}`}>
-            <i className='modal-button material-icons'>edit</i>
+          <Link to={`/${showModal.id}`}>
+            <i
+              className='modal-button material-icons'
+              onClick={() => dispatch(setShowModal(false))}
+            >
+              edit
+            </i>
           </Link>
           <i
             className='modal-button material-icons'

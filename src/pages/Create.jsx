@@ -16,7 +16,6 @@ const Create = () => {
       setFormError('Please fill in all the fields correctly')
       return
     }
-
     try {
       await createCocktail(name, method, rating)
       setFormError(null)

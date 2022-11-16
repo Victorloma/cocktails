@@ -1,6 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit'
-import cocktailsReducer from './features/cocktailsSlice'
+import { cocktailsApi } from './features/api/apiSlice'
+import modalReducer from './features/modalSlice'
 
 export const store = configureStore({
-  reducer: { cocktails: cocktailsReducer },
+  reducer: {
+    [cocktailsApi.reducerPath]: cocktailsApi.reducer,
+    modal: modalReducer,
+  },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(cocktailsApi.middleware),
 })

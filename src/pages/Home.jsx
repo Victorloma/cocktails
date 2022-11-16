@@ -1,28 +1,21 @@
-import { useEffect, useState } from 'react'
-import { getAllCocktails } from '../services/cocktails.service'
-
+import { useState } from 'react'
+import { useGetAllCocktailsQuery } from '../redux/features/api/apiSlice'
 import CocktailCard from '../components/CocktailCard'
-import { useDispatch } from 'react-redux'
 
-const Home = ({ openModal, handleDelete, cocktails, setCocktails }) => {
-  const dispatch = useDispatch()
+const Home = ({ openModal, handleDelete }) => {
   const [fetchError, setFetchError] = useState(null)
   const [orderBy, setOrderBy] = useState('created_at')
 
-  useEffect(() => {
-    const fetchCocktails = async () => {
-      try {
-        const data = await getAllCocktails(orderBy)
-        dispatch(setCocktails(data))
-        setFetchError(null)
-      } catch (err) {
-        setFetchError('Could not find any cocktails =(')
-        dispatch(setCocktails(null))
-      }
-    }
-    fetchCocktails()
-  }, [orderBy, setCocktails, dispatch])
+  const {
+    data: cocktails,
+    isFetching,
+    error,
+  } = useGetAllCocktailsQuery(orderBy)
 
+  if (isFetching) return <h1>Loading...</h1>
+  if (error) {
+    setFetchError(error)
+  }
   return (
     <div className='page'>
       {fetchError && <p>{fetchError}</p>}
@@ -47,7 +40,6 @@ const Home = ({ openModal, handleDelete, cocktails, setCocktails }) => {
               <CocktailCard
                 cocktail={cocktail}
                 key={cocktail.id}
-                onDelete={handleDelete}
                 openModal={openModal}
               />
             ))}

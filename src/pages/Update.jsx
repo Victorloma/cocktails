@@ -18,7 +18,6 @@ const Update = () => {
       setFormError('Please fill in all the fields correctly')
       return
     }
-
     try {
       await updateCocktail(name, method, rating, id)
       setFormError(null)

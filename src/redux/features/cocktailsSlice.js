@@ -1,13 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-const initialState = {}
+const initialState = []
 
 export const cocktailsSlice = createSlice({
   name: 'cocktails',
   initialState,
   reducers: {
     setCocktails: (state, action) => {
-      state.value = action.payload
+      state = action.payload
     },
   },
 })
