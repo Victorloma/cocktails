@@ -6,13 +6,8 @@ const Home = ({ openModal, handleDelete }) => {
   const [fetchError, setFetchError] = useState(null)
   const [orderBy, setOrderBy] = useState('created_at')
 
-  const {
-    data: cocktails,
-    isFetching,
-    error,
-  } = useGetAllCocktailsQuery(orderBy)
+  const { data: cocktails, error } = useGetAllCocktailsQuery(orderBy)
 
-  if (isFetching) return <h1>Loading...</h1>
   if (error) {
     setFetchError(error)
   }

@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { createCocktail } from '../services/cocktails.service'
+import { useAddCocktailMutation } from '../redux/features/api/apiSlice'
 
 const Create = () => {
   const navigate = useNavigate()
@@ -9,6 +9,7 @@ const Create = () => {
   const [rating, setRating] = useState('')
   const [formError, setFormError] = useState(null)
 
+  const [addCocktail] = useAddCocktailMutation()
   const handleSubmit = async (e) => {
     e.preventDefault()
 
@@ -17,7 +18,7 @@ const Create = () => {
       return
     }
     try {
-      await createCocktail(name, method, rating)
+      await addCocktail({ name, method, rating }).unwrap()
       setFormError(null)
       navigate('/')
     } catch (err) {

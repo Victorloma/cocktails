@@ -1,10 +1,16 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { getOneCocktail, updateCocktail } from '../services/cocktails.service'
+import {
+  useGetOneCocktailQuery,
+  useUpdateCocktailMutation,
+} from '../redux/features/api/apiSlice'
 
 const Update = () => {
   const { id } = useParams()
   const navigate = useNavigate()
+
+  const [updateCocktail] = useUpdateCocktailMutation()
+  const { data, isLoading, isSuccess } = useGetOneCocktailQuery(id)
 
   const [name, setName] = useState('')
   const [method, setMethod] = useState('')
@@ -19,7 +25,7 @@ const Update = () => {
       return
     }
     try {
-      await updateCocktail(name, method, rating, id)
+      await updateCocktail({ name, method, rating, id }).unwrap()
       setFormError(null)
       navigate('/')
     } catch (err) {
@@ -28,19 +34,22 @@ const Update = () => {
   }
 
   useEffect(() => {
-    const fetchCocktail = async () => {
-      try {
-        const data = await getOneCocktail(id)
-        setName(data.name)
-        setMethod(data.method)
-        setRating(data.rating)
-      } catch (err) {
-        navigate('/', { replace: true })
-      }
+    const cocktail = data[0]
+    if (isSuccess) {
+      setName(cocktail.name)
+      setMethod(cocktail.method)
+      setRating(cocktail.rating)
     }
+  }, [data, isSuccess])
 
-    fetchCocktail()
-  }, [id, navigate])
+  if (isLoading) return <p>Loading...</p>
+  if (!data) {
+    return (
+      <section>
+        <h2>Cocktail not found!</h2>
+      </section>
+    )
+  }
   return (
     <div className='page update'>
       <form onSubmit={handleSubmit}>

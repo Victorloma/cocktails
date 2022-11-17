@@ -21,18 +21,18 @@ export const cocktailsApi = createApi({
       query: (id) => `/rest/v1/cocktails?id=eq.${id}&select=*`,
     }),
     addCocktail: builder.mutation({
-      query: (name, method, rating) => ({
+      query: (cocktail) => ({
         url: '/rest/v1/cocktails',
         method: 'POST',
-        body: [{ name, method, rating }],
+        body: { ...cocktail },
       }),
       invalidatesTags: ['Cocktails'],
     }),
     updateCocktail: builder.mutation({
-      query: (name, method, rating, id) => ({
-        url: `/rest/v1/cocktails?id=eq.${id}`,
+      query: (cocktail) => ({
+        url: `/rest/v1/cocktails?id=eq.${cocktail.id}`,
         method: 'PATCH',
-        body: [{ name, method, rating }],
+        body: { ...cocktail },
       }),
       invalidatesTags: ['Cocktails'],
     }),
