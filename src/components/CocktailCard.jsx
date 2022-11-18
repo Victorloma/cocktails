@@ -3,7 +3,7 @@ import { setShowModal } from '../redux/features/modalSlice'
 import { useDeleteOneCocktailMutation } from '../redux/features/api/apiSlice'
 import { Link } from 'react-router-dom'
 
-const CocktailCard = ({ cocktail, onDelete, openModal }) => {
+const CocktailCard = ({ cocktail }) => {
   const dispatch = useDispatch()
 
   const [deleteCocktail] = useDeleteOneCocktailMutation()

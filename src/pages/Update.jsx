@@ -34,12 +34,15 @@ const Update = () => {
   }
 
   useEffect(() => {
-    const cocktail = data[0]
-    if (isSuccess) {
-      setName(cocktail.name)
-      setMethod(cocktail.method)
-      setRating(cocktail.rating)
+    const setCocktail = async () => {
+      const cocktail = await data[0]
+      if (isSuccess) {
+        setName(cocktail.name)
+        setMethod(cocktail.method)
+        setRating(cocktail.rating)
+      }
     }
+    setCocktail()
   }, [data, isSuccess])
 
   if (isLoading) return <p>Loading...</p>

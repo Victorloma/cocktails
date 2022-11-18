@@ -3,11 +3,15 @@ import { Link } from 'react-router-dom'
 import { setShowModal } from '../redux/features/modalSlice'
 import { useDeleteOneCocktailMutation } from '../redux/features/api/apiSlice'
 
-const CocktailModal = ({ onDelete }) => {
+const CocktailModal = () => {
   const dispatch = useDispatch()
   const showModal = useSelector((state) => state.modal.showModal)
 
   const [deleteCocktail] = useDeleteOneCocktailMutation()
+
+  const handleClickEdit = () => {
+    dispatch(setShowModal(false))
+  }
 
   const handleDelete = () => {
     deleteCocktail(showModal.id)
@@ -41,7 +45,7 @@ const CocktailModal = ({ onDelete }) => {
           <Link to={`/${showModal.id}`}>
             <i
               className='modal-button material-icons'
-              onClick={() => dispatch(setShowModal(false))}
+              onClick={() => handleClickEdit(showModal)}
             >
               edit
             </i>

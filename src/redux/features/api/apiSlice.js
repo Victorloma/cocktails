@@ -19,6 +19,7 @@ export const cocktailsApi = createApi({
     }),
     getOneCocktail: builder.query({
       query: (id) => `/rest/v1/cocktails?id=eq.${id}&select=*`,
+      providesTags: ['Cocktails'],
     }),
     addCocktail: builder.mutation({
       query: (cocktail) => ({
