@@ -7,13 +7,14 @@ import Update from './pages/Update'
 
 import CocktailModal from './components/CocktailModal'
 import Logo from './cover.png'
+import { selectCocktailModal } from './redux/features/selectors'
 
 function App() {
-  const { showModal } = useSelector((state) => state.modal)
+  const showCocktailModal = useSelector(selectCocktailModal)
 
   return (
     <BrowserRouter>
-      {showModal && <CocktailModal />}
+      {showCocktailModal && <CocktailModal />}
       <nav className='nav'>
         <Link className='nav-link' to='/'>
           <img className='nav-logo' src={Logo} alt='supa logo' />
