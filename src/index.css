@@ -19,27 +19,56 @@ img {
   border-radius: 0.4rem;
 }
 
-nav {
-  background: var(--primary);
-  padding: 0.6rem 1.2rem;
-  text-align: center;
-  margin: 1.5rem 0;
+.nav {
+  display: flex;
+  justify-content: space-between;
 }
 
-nav a {
-  color: #f2f2f2;
-  margin: 0.6rem;
-  display: inline-block;
+img.nav-logo {
+  height: 8rem;
+  width: auto;
 }
 
-nav h1 {
+.nav-links {
+  display: flex;
+  align-items: center;
+  margin-right: 2.5rem;
+}
+
+.nav-link {
+  margin: 1rem;
+  padding: 0;
+  text-decoration: none;
+  font-weight: 500;
   color: #fff;
 }
 
 .page {
   max-width: 1200px;
-  margin: 1.2rem auto;
-  padding: 1.2rem;
+  margin: 0 auto 1.2rem auto;
+  padding: 0 1.2rem 1.2rem 1.2rem;
+}
+
+.order-by {
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 2.5rem;
+}
+
+.order-by p {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+.select-order {
+  appearance: none;
+  font-size: 1rem;
+  margin-left: 1.5rem;
+  padding: 0.5rem 1rem;
+  color: #fff;
+  background-color: #1e1e1e;
+  border-radius: 0.3rem;
+  text-align: center;
 }
 
 .cocktail-grid {
@@ -140,17 +169,6 @@ form button {
   margin: auto 0 0 auto;
 }
 
-.order-by button {
-  margin-right: 0.6rem;
-  background: #3d7eaa;
-  color: #fff;
-  border: 0;
-  padding: 4px 8px;
-  border-radius: 0.4rem;
-  font-family: 'Poppins';
-  cursor: pointer;
-}
-
 .modal-overlay {
   background-color: rgba(0, 0, 0, 0.5);
   width: 100vw;
@@ -165,6 +183,7 @@ form button {
 .modal-container {
   width: 80%;
   height: 70%;
+  min-height: 450px;
   position: fixed;
   background: #1e1e1e;
   box-shadow: rgba(0, 0, 0, 0.35) 0rem 0.5rem 1rem;

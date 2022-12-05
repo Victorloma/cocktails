@@ -1,8 +1,18 @@
+import { useDispatch } from 'react-redux'
+import { setShowModal } from '../redux/features/modalSlice'
+import { useDeleteOneCocktailMutation } from '../redux/features/api/apiSlice'
 import { Link } from 'react-router-dom'
 
-const CocktailCard = ({ cocktail, onDelete, openModal }) => {
+const CocktailCard = ({ cocktail }) => {
+  const dispatch = useDispatch()
+
+  const [deleteCocktail] = useDeleteOneCocktailMutation()
+
   return (
-    <div className='cocktail-card' onClick={() => openModal(cocktail)}>
+    <div
+      className='cocktail-card'
+      onClick={() => dispatch(setShowModal(cocktail))}
+    >
       <img
         className='cocktail-card-img'
         src={cocktail.img}
@@ -20,7 +30,10 @@ const CocktailCard = ({ cocktail, onDelete, openModal }) => {
         <Link to={`/${cocktail.id}`}>
           <i className='material-icons'>edit</i>
         </Link>
-        <i className='material-icons' onClick={() => onDelete(cocktail.id)}>
+        <i
+          className='material-icons'
+          onClick={() => deleteCocktail(cocktail.id)}
+        >
           delete
         </i>
       </div>
