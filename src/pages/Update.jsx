@@ -35,7 +35,7 @@ const Update = () => {
 
   useEffect(() => {
     const setCocktail = async () => {
-      const cocktail = await data[0]
+      const cocktail = await data
       if (isSuccess) {
         setName(cocktail.name)
         setMethod(cocktail.method)
