@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import supabase from '../config/supabaseClient'
+import { useAddCocktailMutation } from '../redux/features/api/apiSlice'
 
 const Create = () => {
   const navigate = useNavigate()
@@ -9,6 +9,7 @@ const Create = () => {
   const [rating, setRating] = useState('')
   const [formError, setFormError] = useState(null)
 
+  const [addCocktail] = useAddCocktailMutation()
   const handleSubmit = async (e) => {
     e.preventDefault()
 
@@ -16,18 +17,12 @@ const Create = () => {
       setFormError('Please fill in all the fields correctly')
       return
     }
-
-    const { data, error } = await supabase
-      .from('cocktails')
-      .insert([{ name, method, rating }])
-      .select()
-
-    if (error) {
-      setFormError('Please fill in all the fields correctly')
-    }
-    if (data) {
+    try {
+      await addCocktail({ name, method, rating }).unwrap()
       setFormError(null)
       navigate('/')
+    } catch (err) {
+      setFormError('Please fill in all the fields correctly')
     }
   }
 

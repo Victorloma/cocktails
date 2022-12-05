@@ -1,46 +1,40 @@
-import { useEffect, useState } from 'react'
-import { getAllCocktails } from '../services/cocktails.service'
-
+import { useState } from 'react'
+import { useGetAllCocktailsQuery } from '../redux/features/api/apiSlice'
 import CocktailCard from '../components/CocktailCard'
 
-const Home = ({ openModal, handleDelete, cocktails, setCocktails }) => {
+const Home = ({ openModal, handleDelete }) => {
   const [fetchError, setFetchError] = useState(null)
   const [orderBy, setOrderBy] = useState('created_at')
 
-  useEffect(() => {
-    const fetchCocktails = async () => {
-      try {
-        const data = await getAllCocktails(orderBy)
-        setCocktails(data)
-        setFetchError(null)
-      } catch (err) {
-        setFetchError('Could not find any cocktails =(')
-        setCocktails(null)
-      }
-    }
-    fetchCocktails()
-  }, [orderBy, setCocktails])
+  const { data: cocktails, error } = useGetAllCocktailsQuery(orderBy)
 
+  if (error) {
+    setFetchError(error)
+  }
   return (
     <div className='page'>
       {fetchError && <p>{fetchError}</p>}
       {cocktails && (
         <div className='cocktails'>
           <div className='order-by'>
-            <p>Order by:</p>
-            <button onClick={() => setOrderBy('created_at')}>
-              Time Created
-            </button>
-            <button onClick={() => setOrderBy('name')}>Name</button>
-            <button onClick={() => setOrderBy('rating')}>Rating</button>
-            {orderBy}
+            <label htmlFor='order'>Order by:</label>
+            <select
+              className='select-order'
+              name='order-by'
+              id='order'
+              onChange={(e) => setOrderBy(e.target.value)}
+              value={orderBy}
+            >
+              <option value='created_at'>Most recent</option>
+              <option value='name'>Name</option>
+              <option value='rating'>Rating</option>
+            </select>
           </div>
           <div className='cocktail-grid'>
             {cocktails.map((cocktail) => (
               <CocktailCard
                 cocktail={cocktail}
                 key={cocktail.id}
-                onDelete={handleDelete}
                 openModal={openModal}
               />
             ))}
